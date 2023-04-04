@@ -65,3 +65,50 @@ Default values in the variable definition: You can define default values for var
 Input prompts: If a variable is not defined using any of the above methods, Terraform will prompt the user to enter the value for the variable during runtime.
 
 Using these methods, you can pass variables to Terraform and make your code more reusable and customizable.
+
+
+
+- Why connect to nic with subnet instead of ec2 itself
+
+In AWS, a network interface (NIC) is a virtual networking component that can be attached to an EC2 instance or other AWS resources, such as an Elastic Network Interface (ENI) for an Amazon RDS database or a Lambda function.
+
+When you create a NIC in AWS, you must associate it with a specific subnet in your VPC. This allows the NIC to be assigned a private IP address from the subnet's IP address range and enables it to communicate with other resources in the same subnet.
+
+You can then attach the NIC to an EC2 instance, allowing the instance to use the private IP address assigned to the NIC for communication with other resources in the subnet.
+
+By associating the NIC with the subnet instead of the EC2 instance directly, you can create more flexible and scalable networking configurations. For example, you can create a single NIC and attach it to multiple instances in the same subnet, allowing those instances to share the same network interface and IP address.
+
+You can also move the NIC to a different instance without changing its IP address, making it easier to scale or replace instances in your VPC without disrupting the network configuration.
+
+Overall, associating a network interface with a subnet instead of an EC2 instance directly provides greater flexibility and scalability for networking configurations in AWS.
+
+
+Connections
+
+- Vpc 
+    - internet gateway
+    - route table (Internet to internet gateway)
+    - subnet (subset of ip addresses)
+    - Route table association (subnet to route table)
+    - security group
+    - subnet <-> Route table association <-> route table <-> internet gateway 
+    - security group,subnet,privateip <-> NIC <-> ec2
+    - Elastic Ip depends on Internet gateway (PrivateIP) , associate with nic private ip <-> NIC (PrivateIP)
+
+
+
+
+VPC -> Internet gateway.
+Routing table decides packet flow from IG to subnet
+Internet gateway connects to NIC -> subnet , security group
+
+EC2 needs 
+    network interface ( Machine to network packet routing.)
+        Security group (Low level physical data centre.)
+        Private Ip and subnet
+        Internet gateway
+            Elastic Ip.
+    availability_zone. 
+    security group ( port restriction )
+    
+   
